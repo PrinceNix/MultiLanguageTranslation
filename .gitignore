@@ -1,0 +1,51 @@
+# Large model files
+*.tar.gz
+*.zip
+*.rar
+translation_api_offline/
+src/models/indictrans2/en-indic/
+src/models/indictrans2/indic-en/
+models/
+*.pkl
+*.pth
+*.bin
+*.h5
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+
+# Logs
+*.log
+logs/
+*.out
+translation.log
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+temp_*
+*_temp
+test_package/
+create_offline_package.sh

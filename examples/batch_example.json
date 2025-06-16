@@ -1,0 +1,11 @@
+{
+  "src_lang": "eng_Latn",
+  "tgt_lang": "hin_Deva",
+  "texts": [
+    "Hello, how are you?",
+    "Good morning!",
+    "Have a nice day!",
+    "Thank you very much.",
+    "See you tomorrow."
+  ]
+}

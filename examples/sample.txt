@@ -1,0 +1,7 @@
+Hello, welcome to our translation system!
+
+This is a sample text file that can be translated.
+We support multiple languages including Hindi and Urdu.
+
+The system is fast and accurate.
+Thank you for using our service!

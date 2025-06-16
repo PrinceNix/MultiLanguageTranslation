@@ -1,0 +1,20 @@
+{
+  "title": "Welcome Message",
+  "content": "Hello, this is a sample message for translation.",
+  "description": "This JSON file contains text that can be translated to different languages.",
+  "metadata": {
+    "author": "Translation System",
+    "version": "1.0",
+    "note": "This is a demonstration of JSON translation capabilities."
+  },
+  "items": [
+    {
+      "name": "Item 1",
+      "description": "This is the first item in our list."
+    },
+    {
+      "name": "Item 2", 
+      "description": "This is the second item in our list."
+    }
+  ]
+}
