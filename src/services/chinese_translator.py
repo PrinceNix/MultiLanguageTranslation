@@ -3,6 +3,8 @@ import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 from src.utils.logger import setup_logger
 import time
+from src.utils.model_config import get_model_path
+from src.utils.model_config import get_model_path
 
 logger = setup_logger("chinese_translator")
 
@@ -67,14 +69,18 @@ class ChineseTranslator:
         
         start_time = time.time()
         try:
-            # Load tokenizer
-            tokenizer = AutoTokenizer.from_pretrained(model_name)
+            # Get cache directory
+            cache_dir = get_model_path("opus_mt", model_key)["cache_dir"]
+            
+            # Load with cache directory
+            tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
             
             # Load model with appropriate dtype (same as existing system)
             dtype = torch.float16 if self.device != "cpu" else torch.float32
             model = AutoModelForSeq2SeqLM.from_pretrained(
                 model_name,
-                torch_dtype=dtype
+                torch_dtype=dtype,
+                cache_dir=cache_dir
             ).to(self.device)
             
             model.eval()

@@ -49,3 +49,11 @@ temp_*
 *_temp
 test_package/
 create_offline_package.sh
+
+# Downloaded models (large files)
+models/*/*/
+!models/*/.gitkeep
+*.safetensors
+*.bin
+pytorch_model.bin
+model.safetensors

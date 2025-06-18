@@ -5,6 +5,7 @@ from IndicTransToolkit import IndicProcessor
 from src.services.chinese_translator import ChineseTranslator
 from src.utils.logger import setup_logger
 from typing import Dict, Tuple, List
+from src.utils.model_config import get_model_path, get_models_directory
 import time
 
 logger = setup_logger("enhanced_unified_translator")
@@ -95,19 +96,24 @@ class EnhancedUnifiedTranslator:
         
         start_time = time.time()
         try:
-            # Load tokenizer
+            # Get cache directory for this model
+            cache_dir = get_model_path("indictrans2", model_key)["cache_dir"]
+            
+            # Load tokenizer with cache directory
             tokenizer = AutoTokenizer.from_pretrained(
-                model_name, 
-                trust_remote_code=True
-            )
+            model_name, 
+            trust_remote_code=True,
+            cache_dir=cache_dir
+        )
             
             # Load model with appropriate dtype
             dtype = torch.float16 if self.device != "cpu" else torch.float32
             model = AutoModelForSeq2SeqLM.from_pretrained(
-                model_name,
-                trust_remote_code=True,
-                torch_dtype=dtype
-            ).to(self.device)
+            model_name,
+            trust_remote_code=True,
+            torch_dtype=dtype,
+            cache_dir=cache_dir
+        ).to(self.device)
             
             model.eval()
             

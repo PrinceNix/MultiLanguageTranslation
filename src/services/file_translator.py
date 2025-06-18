@@ -5,7 +5,7 @@ import csv
 from typing import List, Dict, Tuple
 from pathlib import Path
 import time
-from src.services.unified_translator import UnifiedTranslator
+from src.services.enhanced_unified_translator import EnhancedUnifiedTranslator
 from src.utils.logger import setup_logger
 
 logger = setup_logger("file_translator")
@@ -19,7 +19,7 @@ class FileTranslator:
     SUPPORTED_FORMATS = ['.txt', '.json', '.csv']
     
     def __init__(self):
-        self.translator = UnifiedTranslator()
+        self.translator = EnhancedUnifiedTranslator()
         logger.info("File Translator initialized")
     
     def is_supported_format(self, file_path: str) -> bool:

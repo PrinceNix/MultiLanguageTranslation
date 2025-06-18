@@ -1,0 +1,14 @@
+# Core translation dependencies only - no UI
+torch>=2.0.0,<2.7
+transformers>=4.30.0
+sentencepiece>=0.1.99
+sacremoses>=0.0.53
+
+# IndicTransToolkit (for IndicProcessor)
+git+https://github.com/VarunGumma/IndicTransToolkit.git
+
+# Minimal utilities
+numpy
+pyyaml
+regex
+tqdm
