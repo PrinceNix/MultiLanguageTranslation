@@ -1,49 +1,107 @@
-# Model Setup for Backend Team
+# Backend Model Setup - v3.0.0
 
-## Quick Start (3 Steps)
+## Quick Backend Setup (3 Steps)
 
-### 1. Install Dependencies
+### 1. Install Core Dependencies
 ```bash
+# Backend-only setup (20 packages, ~200MB)
 pip install -r requirements-core.txt
 ```
 
-### 2. Download Models (Choose ONE option)
-
-#### Option A: Download All Models at Once (Recommended)
+### 2. Download Models
 ```bash
+# Option A: Download all models (5-10 minutes)
 python scripts/download_models.py
-```
-Wait 5-10 minutes. All models will be in `models/` directory.
 
-#### Option B: Let Models Download Automatically
-Just run any translation command:
-```bash
+# Option B: Auto-download on first use
 python src/cli_translator.py "Hello" --src eng_Latn --tgt hin_Deva
 ```
 
-### 3. Verify Models are Downloaded
+### 3. Verify Installation
 ```bash
-ls -la models/indictrans2/
-ls -la models/opus-mt/
+# Test system
+python tests/test_enhanced_unified_translator.py
+
+# Test CLI
+python src/cli_translator.py "Test" --src eng_Latn --tgt hin_Deva
 ```
 
-You should see model files in these directories.
+## Backend Integration - NEW v3.0.0
 
-## What's in the Models Directory?
+### Simple Translation Wrapper
+```python
+from src.services.translation_wrapper import translate_wrapper
 
+# Automatic routing (direct or multi-step)
+result = translate_wrapper(text, src_lang, tgt_lang)
+```
+
+### File Translation
+```python
+from src.services.translation_wrapper import WrappedTranslator
+from src.services.file_translator import FileTranslator
+
+file_translator = FileTranslator(translator=WrappedTranslator())
+stats = file_translator.translate_file(input_path, output_path, src_lang, tgt_lang)
+```
+
+### FastAPI Integration Example
+```python
+from fastapi import FastAPI, UploadFile
+from src.services.translation_wrapper import translate_wrapper, WrappedTranslator
+from src.services.file_translator import FileTranslator
+
+app = FastAPI()
+
+@app.post("/translate")
+async def translate_text(text: str, src_lang: str, tgt_lang: str):
+    result = translate_wrapper(text, src_lang, tgt_lang)
+    return {"translated_text": result}
+
+@app.post("/translate/file")
+async def translate_file_endpoint(file: UploadFile, src_lang: str, tgt_lang: str):
+    # Save uploaded file
+    input_path = f"temp_{file.filename}"
+    with open(input_path, "wb") as f:
+        f.write(await file.read())
+    
+    # Translate
+    file_translator = FileTranslator(translator=WrappedTranslator())
+    output_path = f"translated_{file.filename}"
+    stats = file_translator.translate_file(input_path, output_path, src_lang, tgt_lang)
+    
+    return {"status": "success", "output_file": output_path, "stats": stats}
+```
+
+## Language Codes for API
+```python
+SUPPORTED_LANGUAGES = {
+    "eng_Latn": "English",
+    "hin_Deva": "Hindi", 
+    "urd_Arab": "Urdu",
+    "zh": "Chinese"
+}
+```
+
+## Model Storage
 ```
 models/
-├── indictrans2/           # Indian language models
-│   ├── en-indic/         # English → Hindi/Urdu
+├── indictrans2/           # Hindi/Urdu models (~400MB)
+│   ├── en-indic/         # English → Hindi/Urdu  
 │   └── indic-en/         # Hindi/Urdu → English
-└── opus-mt/              # Chinese models
+└── opus-mt/              # Chinese models (~600MB)
     ├── en-zh/            # English → Chinese
     └── zh-en/            # Chinese → English
 ```
 
-## For Offline Deployment
+## Deployment Notes
+- **Total size**: ~1GB (models) + 200MB (dependencies)
+- **Memory**: 2-4GB RAM recommended
+- **First run**: 30-60 seconds model loading
+- **Subsequent runs**: <5 seconds per translation
 
-1. Download models using the script
-2. Copy entire `models/` directory to deployment server
-3. No internet needed after that!
-
+## What's New in v3.0.0
+- ✅ Translation wrapper for automatic routing
+- ✅ Simplified API integration
+- ✅ File translation with custom translators
+- ✅ Backend-ready FastAPI examples

@@ -18,9 +18,10 @@ class FileTranslator:
     
     SUPPORTED_FORMATS = ['.txt', '.json', '.csv']
     
-    def __init__(self):
-        self.translator = EnhancedUnifiedTranslator()
-        logger.info("File Translator initialized")
+    def __init__(self, translator=None):
+        self.translator = translator or EnhancedUnifiedTranslator()
+        translator_type = type(self.translator).__name__
+        logger.info(f"File Translator initialized with {translator_type}")
     
     def is_supported_format(self, file_path: str) -> bool:
         """Check if file format is supported."""
