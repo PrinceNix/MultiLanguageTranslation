@@ -57,3 +57,40 @@ models/*/*/
 *.bin
 pytorch_model.bin
 model.safetensors
+
+# Test files and directories (prevent future accidents)
+test_*.txt
+test_*.json
+test_*.py
+test_compatibility.py
+test_local_models/
+test_venv*/
+temp_*
+*_temp*
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+.env
+*_venv/
+*_env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+._*
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# Temporary translation files
+translated_*
+*_translated_*
